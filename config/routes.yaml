@@ -1,0 +1,46 @@
+api_login_check:
+    path: /api/login_check
+
+fos_user_registration_check_email:
+    controller: App\Controller\Api\UserController::checkAction
+    path: /register/checm
+    methods: GET
+
+fos_user_registration_confirm:
+    controller: App\Controller\Api\UserController::confirmAction
+    path: /register/confirm
+    methods: GET
+
+fos_user_registration_register:
+    controller: App\Controller\Api\UserController::registerAction
+    path: /register
+    methods: POST
+
+fos_user_resetting_send_email:
+    controller: App\Controller\Api\UserController::requestResetPasswordAction
+    path: /password/request
+    methods: POST
+
+fos_user_resetting_reset:
+    controller: App\Controller\Api\UserController::resetPasswordAction
+    path: /password/reset
+    methods: POST
+
+fos_user_profile_edit:
+    controller: App\Controller\Api\UserController::editProfileAction
+    path: /me/settings
+    methods: PATCH
+
+app.user_profile:
+    controller: App\Controller\Api\UserController::editProfileAction
+    path: /me/settings
+    methods: PATCH
+
+api.me_privacy:
+    resource: App\Controller\Api\PrivacySettingsController
+
+api.me_account:
+    resource: App\Controller\Api\AccountSettingsController
+
+api.me_notifications:
+    resource: App\Controller\Api\NotificationSettingsController
