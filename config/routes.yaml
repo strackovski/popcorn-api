@@ -41,6 +41,10 @@ app.cards_get:
     path: /cards
     methods: GET
 
+api.articles:
+    resource: App\Controller\Api\PrivacySettingsController
+    type: annotation
+
 api.me_privacy:
     resource: App\Controller\Api\PrivacySettingsController
 

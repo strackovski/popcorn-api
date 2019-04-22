@@ -84,6 +84,16 @@ services:
 #        tags:
 #            - { name: controller.argument_value_resolver, priority: 50 }
 
+    app.json_exception_controller:
+        public: true
+        class: App\Controller\Api\ExceptionController
+        arguments:
+            - '@fos_rest.exception.codes_map'
+
+    FOS\RestBundle\Util\ExceptionValueMap:
+        alias: 'fos_rest.exception.codes_map'
+        public: true
+
     #
     # ENTITY REPOSITORY AND MANAGER SERVICES
     #

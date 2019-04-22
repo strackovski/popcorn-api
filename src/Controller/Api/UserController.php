@@ -372,4 +372,27 @@ class UserController extends AbstractRestController
 
         return $this->response([], 404);
     }
+
+    /**
+     * Get users
+     *
+     * @Rest\Get("/users")
+     *
+     * @param User    $user
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function getAction(User $user, Request $request): \Symfony\Component\HttpFoundation\Response
+    {
+        if (!($user = $this->fetchUser()) instanceof User) {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->response(
+            $this->repository->findAll(),
+            200,
+            ['public', 'user_profile_public']
+        );
+    }
 }

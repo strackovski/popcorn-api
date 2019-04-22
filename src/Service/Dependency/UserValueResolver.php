@@ -23,10 +23,10 @@ class UserValueResolver implements ArgumentValueResolverInterface
      */
     private $security;
 
-//    /**
-//     * @var UserRepository
-//     */
-//    private $repository;
+    /**
+     * @var UserRepository
+     */
+    private $repository;
 
     /**
      * UserValueResolver constructor.
@@ -37,7 +37,7 @@ class UserValueResolver implements ArgumentValueResolverInterface
     public function __construct(Security $security, UserRepository $repository)
     {
         $this->security = $security;
-//        $this->repository = $repository;
+        $this->repository = $repository;
     }
 
     /**
@@ -73,6 +73,6 @@ class UserValueResolver implements ArgumentValueResolverInterface
 //            return;
 //        }
 
-//        yield $this->repository->findUser($this->security->getUser()->getUsername());
+        yield $this->repository->findByEmailOrUsername($this->security->getUser()->getUsername());
     }
 }

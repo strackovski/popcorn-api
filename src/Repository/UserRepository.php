@@ -100,10 +100,23 @@ class UserRepository extends AbstractRepository
      * @param      $id
      *
      * @return mixed
+     * @throws \Exception
      */
     public function findUser($id)
     {
-        return $this->repository->findAll($id);
+        $user = null;
+
+        try {
+            if (!($user = $this->repository->findByEmail($id)) instanceof User) {
+                if (!($user = $this->repository->findByUsername($id)) instanceof User) {
+                    return null;
+                }
+            }
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        return $user;
     }
 
     /**

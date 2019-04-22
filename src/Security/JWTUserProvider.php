@@ -39,15 +39,7 @@ class JWTUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($userId)
     {
-
         return $this->repository->findByEmailOrUsername($userId);
-        // Disable db check
-//         $u = new User();
-//         $u->setUsername($userId);
-//         $u->addRole('ROLE_USER');
-//         $u->setEnabled(true);
-//
-//         return $u;
     }
 
     /**

@@ -31,7 +31,43 @@ class User extends BaseUser implements EntityInterface
     protected $id;
 
     /**
-     * @Groups({"list", "settings_account", "settings", "user_search"})
+     * @var string
+     * @Assert\Type("string")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"user_profile_public", "requests"})
+     */
+    protected $firstName;
+
+    /**
+     * @var string
+     * @Assert\Type("string")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your last name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your last name cannot be longer than {{ limit }} characters"
+     * )
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"user_profile_public", "requests"})
+     */
+    protected $lastName;
+
+    /**
+     * @var string
+     * @Assert\Country()
+     * @ORM\Column(name="country", type="text", nullable=true)
+     * @Groups({"user_profile_public", "requests"})
+     */
+    protected $country;
+
+    /**
+     * @Groups({"list", "settings_account", "settings", "user_search", "user_profile_public"})
      */
     protected $email;
 
@@ -81,6 +117,14 @@ class User extends BaseUser implements EntityInterface
      */
     private $devices;
 
+    // ...
+    /**
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="author")
+     */
+    private $articles;
+
+    // ...
+
     /**
      * User constructor.
      */
@@ -88,18 +132,19 @@ class User extends BaseUser implements EntityInterface
     {
         parent::__construct();
         $this->devices = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     /**
      * @return string
      */
-    public function getAvatarUrl(): string
+    public function getAvatarUrl(): ?string
     {
         return $this->avatarUrl;
     }
 
     /**
-     * @param  string $avatarUrl
+     * @param string $avatarUrl
      *
      * @return $this
      */
@@ -151,7 +196,7 @@ class User extends BaseUser implements EntityInterface
     }
 
     /**
-     * @param  PrivacySettings $privacy
+     * @param PrivacySettings $privacy
      *
      * @return $this
      */
@@ -171,7 +216,7 @@ class User extends BaseUser implements EntityInterface
     }
 
     /**
-     * @param  NotificationSettings $notificationSettings
+     * @param NotificationSettings $notificationSettings
      *
      * @return $this
      */
@@ -191,13 +236,107 @@ class User extends BaseUser implements EntityInterface
     }
 
     /**
-     * @param  AccountSettings $account
+     * @param AccountSettings $account
      *
      * @return $this
      */
     public function setAccount(?AccountSettings $account = null): self
     {
         $this->account = $account;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * @param Article $article
+     *
+     * @return User
+     */
+    public function removeArticle(Article $article)
+    {
+        $this->articles->remove($article);
+        $article->setAuthor(null);
+
+        return $this;
+    }
+
+    /**
+     * @param Article $article
+     *
+     * @return User
+     */
+    public function addArticle(Article $article)
+    {
+        $this->articles->add($article);
+        $article->setAuthor($this);
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string $country
+     *
+     * @return User
+     */
+    public function setCountry($country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     *
+     * @return User
+     */
+    public function setFirstName($firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     *
+     * @return User
+     */
+    public function setLastName($lastName): self
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }

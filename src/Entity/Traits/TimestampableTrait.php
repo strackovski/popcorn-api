@@ -27,7 +27,7 @@ trait TimestampableTrait
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="modified", type="datetime")
-     * @Groups({"user"})
+     * @Groups({"user", "public"})
      */
     protected $modifiedAt;
 
