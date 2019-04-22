@@ -36,6 +36,11 @@ app.user_profile:
     path: /me/settings
     methods: PATCH
 
+app.cards_get:
+    controller: App\Controller\Api\AccountSettingsController::getCardsAction
+    path: /cards
+    methods: GET
+
 api.me_privacy:
     resource: App\Controller\Api\PrivacySettingsController
 

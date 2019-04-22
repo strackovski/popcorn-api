@@ -39,7 +39,9 @@ class JWTUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($userId)
     {
-        return $this->repository->findUser($userId);
+        $u = $this->repository->findBy(['username' => $userId]);
+
+        return count($u) > 0 ? $u[0] : null;
 
         // Disable db check
 //         $u = new User();

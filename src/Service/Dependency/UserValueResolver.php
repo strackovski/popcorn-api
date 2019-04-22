@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class UserValueResolver
@@ -51,7 +52,7 @@ class UserValueResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-        return $this->security->getUser() instanceof User;
+        return $this->security->getUser() instanceof UserInterface;
     }
 
     /**

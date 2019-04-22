@@ -36,11 +36,11 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
      */
     public function handle(Request $request, AccessDeniedException $accessDeniedException)
     {
-        if (explode('/', $request->getPathInfo())[1] === 'owners-lounge') {
-            $this->session->getFlashBag()->add("notice", "You don't have sufficient rights to access this page.");
-
-            return new RedirectResponse('/');
-        }
+//        if (explode('/', $request->getPathInfo())[1] === 'owners-lounge') {
+//            $this->session->getFlashBag()->add("notice", "You don't have sufficient rights to access this page.");
+//
+//            return new RedirectResponse('/');
+//        }
 
         throw $accessDeniedException;
     }

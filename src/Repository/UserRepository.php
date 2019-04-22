@@ -77,7 +77,7 @@ class UserRepository extends AbstractRepository
      */
     public function findUser($id)
     {
-        return $this->findOneBy(['email' => $id]);
+        return $this->repository->findAll($id);
     }
 
     /**

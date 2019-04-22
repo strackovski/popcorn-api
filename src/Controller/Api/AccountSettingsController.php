@@ -6,6 +6,7 @@ use App\Controller\AbstractRestController;
 use App\Entity\AccountSettings;
 use App\Entity\User;
 use App\Repository\AccountSettingsRepository;
+use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,6 +23,49 @@ class AccountSettingsController extends AbstractRestController
      * @var AccountSettingsRepository
      */
     protected $repository;
+
+    /**
+     * Get account settings for current user.
+     *
+     * @Rest\Get("/cards")
+     *
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function getCardsAction(Request $request): \Symfony\Component\HttpFoundation\Response
+    {
+        $count = $request->query->get('count', 1);
+
+        if ($count > 20) {
+            $count = 20;
+        }
+
+        if (!($user = $this->fetchUser()) instanceof User) {
+            throw $this->createNotFoundException();
+        }
+
+        $initial = ["customer1.jpg", "customer2.jpg", "customer3.jpg"];
+        $final = [];
+
+        $faker = Factory::create();
+        for ($i = 1; $i <= $count; $i++) {
+            foreach ($initial as $item) {
+                $final[] = [
+                    'title' => $faker->firstName.' '.$faker->lastName,
+                    'text' => $faker->realText(),
+                    'image' => $item,
+                    'link' => '#',
+                ];
+            }
+        }
+
+        return $this->response(
+            $final,
+            200,
+            ['settings_account', 'public']
+        );
+    }
 
     /**
      * Get account settings for current user.
@@ -45,7 +89,7 @@ class AccountSettingsController extends AbstractRestController
      * @param User    $user
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return mixed
      */
     public function patchAction(User $user, Request $request): \Symfony\Component\HttpFoundation\Response
     {
