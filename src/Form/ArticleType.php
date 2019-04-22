@@ -27,10 +27,11 @@ class ArticleType extends AbstractType
     {
         $builder->add('title', TextType::class, ['required' => false])
                 ->add('text', TextareaType::class, ['required' => false])
+                ->add('text2', TextareaType::class, ['required' => false])
                 ->add('ctaLink', TextType::class, ['required' => false])
                 ->add('ctaText', TextType::class, ['required' => false])
-                ->add('ctaText', TextType::class, ['required' => false])
                 ->add('category', TextType::class, ['required' => false])
+                ->add('imageUrl', TextType::class, ['required' => false])
         ;
     }
 

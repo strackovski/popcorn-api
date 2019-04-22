@@ -51,7 +51,7 @@ class UserFixturesCommand extends Command
     protected $em;
 
     /**
-     * @var AppUserRepository
+     * @var UserRepository
      */
     protected $repository;
 

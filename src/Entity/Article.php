@@ -39,6 +39,22 @@ class Article implements EntityInterface
      * @ORM\Column(type="text", nullable=true)
      * @Groups({"public"})
      */
+    private $text2;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"public"})
+     */
+    private $imageUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"public"})
+     */
     private $ctaLink;
 
     /**
@@ -134,6 +150,26 @@ class Article implements EntityInterface
     /**
      * @return string
      */
+    public function getText2(): ?string
+    {
+        return $this->text2;
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return Article
+     */
+    public function setText2(?string $text): self
+    {
+        $this->text2 = $text;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getCtaLink(): ?string
     {
         return $this->ctaLink;
@@ -212,6 +248,26 @@ class Article implements EntityInterface
     public function setAuthor(?User $author = null): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string $imageUrl
+     *
+     * @return Article
+     */
+    public function setImageUrl(?string $imageUrl = null): self
+    {
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }
