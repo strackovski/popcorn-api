@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Exception\Request\NotFoundButRequiredException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * Class UserRepository
@@ -65,6 +66,31 @@ class UserRepository extends AbstractRepository
         /** @var User $user */
         foreach ($users as $user) {
             $result[] = $user->getEmail();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return User
+     */
+    public function findByEmailOrUsername($id)
+    {
+        $qb = $this->createQueryBuilder('u')
+                   ->select('u')
+                   ->where('u.username = :id')
+                   ->orWhere('u.email = :id')
+                   ->setParameter('id', $id);
+
+        try {
+            $result = $qb->getQuery()->getOneOrNullResult();
+            if (!($result instanceof UserInterface)) {
+                return null;
+            }
+        } catch (NonUniqueResultException $exception) {
+            return null;
         }
 
         return $result;
