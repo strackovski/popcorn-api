@@ -60,13 +60,7 @@ class EntityFormProcessor
         $returnForm = false
     ) {
         $form = $this->createForm($type ?: $this->getFormType($entity), $entity, $options);
-
-//        $data = $request->request->get($form->getName());
-
         $data = json_decode($request->getContent(), true);
-
-//        dump($form->getName(), $data);die;
-
         $form = $form->submit($data, false);
 
         if ($form->isSubmitted() && $form->isValid()) {

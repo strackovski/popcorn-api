@@ -42,6 +42,22 @@ class Article implements EntityInterface
     private $text2;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"public"})
+     */
+    private $published;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"public"})
+     */
+    private $draft;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -90,12 +106,18 @@ class Article implements EntityInterface
      * @param string $ctaText
      * @param User   $author
      */
-    public function __construct(?User $author = null, ?string $title = null, ?string $text = null, ?string $ctaText = 'Read More')
-    {
+    public function __construct(
+        ?User $author = null,
+        ?string $title = null,
+        ?string $text = null,
+        ?string $ctaText = 'Read More'
+    ) {
         $this->title = $title;
         $this->text = $text;
         $this->ctaText = $ctaText;
         $this->author = $author;
+        $this->published = false;
+        $this->draft = true;
     }
 
     /**
@@ -272,4 +294,43 @@ class Article implements EntityInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param bool $published
+     *
+     * @return Article
+     */
+    public function setPublished(?bool $published = false): self
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDraft(): ?bool
+    {
+        return $this->draft;
+    }
+
+    /**
+     * @param bool $draft
+     *
+     * @return Article
+     */
+    public function setDraft(?bool $draft = false): self
+    {
+        $this->draft = $draft;
+
+        return $this;
+    }
 }

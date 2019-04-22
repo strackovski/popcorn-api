@@ -157,4 +157,44 @@ class ArticleController extends AbstractRestController
             400
         );
     }
+
+    /**
+     * Update existing Article
+     *
+     * @Rest\Put("/articles/{id}")
+     * @Rest\Delete("/articles/{id}")
+     *
+     * @param         $id
+     * @param User    $user
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function publishAction($id, User $user, Request $request): \Symfony\Component\HttpFoundation\Response
+    {
+        $article = $this->repository->findOneBy(['id' => $id]);
+
+        if (!($article instanceof Article)) {
+            return $this->response(['error' => 'Not found.'], 404);
+        }
+
+        if ($article->getAuthor()->getEmail() !== $user->getEmail()) {
+            return $this->response(['error' => 'Fobidden.'], 403);
+        }
+
+        if ($request->getMethod() === 'PUT' && !$article->isPublished()) {
+            $article->setPublished(true);
+        }
+
+        if ($request->getMethod() === 'DELETE' && $article->isPublished()) {
+            $article->setPublished(false);
+        }
+
+        if ($article instanceof Article) {
+            $this->repository->save($article);
+            return $this->response([$article], 200, ['public', 'user_profile_public']);
+        }
+
+        return $this->response(['error' => 'Not found.'], 404);
+    }
 }

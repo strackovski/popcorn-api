@@ -141,7 +141,7 @@ class ArticleFixturesCommand extends Command
                 $this->repository->save();
             }
         } catch (\Exception $e) {
-            dump($e->getMessage());
+
         }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\AccountSettings;
 use App\Entity\Article;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
